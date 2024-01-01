@@ -1,0 +1,64 @@
+#+title: User Input Output
+#+author: Bedaprakash Nayak
+#+date: <2023-12-29 Fri>
+** Including Libraries
+C++ is a versatile language, and it relies on libraries to access various functionalities. We include a specific library at the beginning of our code that is =#include <iostream>= which is used for input and output operations. Similarly we use =#include <math.h>= which allows us to use mathematical operations. Simple put, libraries provide pre-built functions and tools for us to use in our code.
+
+** The Generic Skeleton
+The generic skeleton of a C++ program consists of two main components: the library inclusion and main function.
+
+#+begin_src C
+#include <iostream>
+
+int main() {
+  // your code here.
+}
+#+end_src
+
+** Output with =cout=
+To display output in C++, you will commonly use the =cout= function form the =iostream= library. However, you will need to specify that it belongs to the =std= (standard) namespace.
+
+#+begin_src C
+#include<iostream>
+
+int main() {
+  std::cout << "Hey, Striver!";
+  return 0;
+}
+#+end_src
+
+To have a new line =\n= can be used as well as =std::endl= can also be used, which inserts new line and flus the output character buffer. Using a =\n= for line breaks in C++ is lot more efficient and faster approach than other methods like =std::endl=.
+
+The reason for this is that =\n= is a simple escape sequence that inserts a newline character, which is a low-level operation that directly moves the cursor to the beginning of the next line in the output. On other hand, =std::endl= not only adds a newline character but also flushes the ouput buffer. Flusing buffer can be costly interms of performance.
+
+Also by adding =using namespace std;= at the beginning of the program, we can avoid using =std::= explicitly each time. Which tells the compiler that we want to use all the names from the =std= namespace.
+
+#+begin_src C
+#include<iostream>
+using namespace std;
+
+int main() {
+  cout << "Hey, Striver!" << endl;
+  cout << "Hey, Striver!";
+  return 0;
+}
+#+end_src
+
+=using namespace std;= makes the code more readable, simple and reduces the clutter.
+
+** Input with =cin=
+To take inputs from the user in C++, you will commonly use the =cin= function from the =iostream=.
+
+#+begin_src C
+#include<iostream>
+using namespace std;
+
+int main() {
+  int x;
+  cin >> x;
+  cout << "Value of x: " << x;
+  return 0;
+}
+#+end_src
+
+When you run this program and enter a value (e.g., 10) in the terminal. =cin= captures that value, stores it in the variable =x=, and then display it using =cout=

@@ -1,0 +1,31 @@
+#+title: Binary Tree Representation In C++
+#+author: Bedaprakash Nayak
+#+date: <2024-01-01 Mon>
+A Binary Tree in C++ is represented as pointers connecting to each other in a hierarchical manner where a node can have two further pointers namely, a right child and a left child. The pointers point to the value of the next pointing node.
+
+Let’s understand through an illustration how we can represent a tree as pointers in C++:
+
+If there is no left or right child of a particular node, the respective pointer will by default point to NULL.
+
+In C++ language, we represent a tree by creating a Structure “Node” and then defining data for the node and left and right pointers for that node, hence initializing them. In the main function, we can directly allocate memory dynamically using “new” keyword and assign further values to nodes as depicted below.
+
+#+begin_src C++
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+  int data;
+  Node *left;  // left child
+  Node *right; // right child
+
+  Node(int val) : data(val), left(NULL), right(NULL) {}
+};
+
+int main() {
+  struct Node *root = new Node(1);
+  root->left = new Node(2);
+  root->right = new Node(3);
+  return 0;
+}
+#+end_src

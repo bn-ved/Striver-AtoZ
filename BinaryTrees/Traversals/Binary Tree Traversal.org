@@ -1,0 +1,167 @@
+#+title: Binary Tree Traversal
+#+author: Bedaprakash Nayak
+#+date: <2024-01-01 Mon>
+The tree is a non-linear data structure, unlike Linked List and Arrays. It is a hierarchical data structure that can be traversed in the following ways:-
+
+- Inorder Traversal (left, _root_, right)
+- Preorder Traversal (_root_, left, right)
+- Postorder Traversal (left, right, _root_)
+- Level Order Traversal.
+
+** Inorder Traversal
+Inorder Traversal is one of the tree traversals in which the left subtree is visited first then visit the root and then the right subtree is visited.
+Algorithm of Inorder Traversal
+
+- Traverse the left subtree
+- Print the root
+- Traverse the right subtree
+
+*** Algorithm of Inorder Traversal
+
+#+begin_src C++
+#include <vector>
+
+using namespace std;
+
+struct Node {
+  int data;
+  Node *left;
+  Node *right;
+};
+
+void inorderTraversal(Node *curr, vector<int> &inOrder) {
+  if (curr == NULL) {
+    return;
+  }
+  inorderTraversal(curr->left, inOrder);  // traverse left subtree
+  inOrder.push_back(curr->data);          // take the root
+  inorderTraversal(curr->right, inOrder); // traverse right subtree
+}
+#+end_src
+
+*** Applications of Inorder Traversal
+- If inorder traversal of Binary Search Tree (BST) is done , we get increasing order.
+- We can get reversed order / Decreasing order by doing inorder traversal in reverse order ( where right subtree is called first and then left subtree is called)
+
+** Preorder Traversal
+Preorder Traversal is one of the tree traversals in which root is visited then the left subtree is visited and then the right subtree is visited.
+
+- Traverse the left subtree
+- Print the root
+- Traverse the right subtree
+
+*** Implementation of Preorder Traversal
+
+#+begin_src C++
+#include <vector>
+
+using namespace std;
+
+struct Node {
+  int data;
+  Node *left;
+  Node *right;
+};
+
+void preOrderTraversal(Node *curr, vector<int> &preOrder) {
+  if(curr == NULL) {
+    return;
+  }
+  preOrder.push_back(curr->data);
+  preOrderTraversal(curr->left, preOrder);
+  preOrderTraversal(curr->right, preOrder);
+}
+#+end_src
+
+*** Applications of Preorder Traversal
+- The main use of Preorder is to get copy of Tree.
+- Other use is to generate Prefix expression.
+
+** Postorder Traversal
+Postorder Traversal is one of the tree traversals in which the left subtree is visited, then the right subtree is visited, and then the root is visited.
+
+- Traverse the left subtree
+- Traverse the right subtree
+- Print the root
+
+*** Implementation of Postorder Traversal
+
+#+begin_src C++
+#include <vector>
+
+using namespace std;
+
+struct Node {
+  int data;
+  Node *left;
+  Node *right;
+};
+
+void postOrderTraversal(Node *curr, vector<int> &postOrder) {
+  if (curr == NULL) {
+    return;
+  }
+  postOrderTraversal(curr->left, postOrder);
+  postOrderTraversal(curr->right, postOrder);
+  postOrder.push_back(curr->data);
+}
+#+end_src
+
+*** Applications of Postorder Traversal
+
+- The main use of Postorder is to delete the tree ( Before deleting the parent, we should delete children first ).
+- Other use is to generate Postfix expression.
+
+** Levelorder Traversal
+Level order Traversal is one of the tree traversals in which every node in the tree is visited level by level.
+
+- Remove a node from queue.
+- Print the node.
+- Add all of its children in the queue
+
+*** Implementation of Levelorder Traversal
+
+#+begin_src C++
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+struct Node {
+  int data;
+  Node *left;
+  Node *right;
+};
+
+vector<vector<int>> levelOrder(Node *root) {
+  vector<vector<int>> ans;
+
+  queue<Node *> q;
+  q.push(root);
+
+  while (!q.empty()) {
+    vector<int> level;
+
+    for (int i = 0; i < q.size(); i++) {
+      Node *node = q.front();
+      q.pop();
+
+      if (node->left) {
+        q.push(node->left);
+      }
+      if (node->right) {
+        q.push(node->right);
+      }
+
+      level.push_back(node->data);
+    }
+    ans.push_back(level);
+  }
+  return ans;
+}
+#+end_src
+
+*** Applications of Level order Traversal
+
+- Level order traversal is actually Breadth First Search.
+- Finding connected components in graph data structure.
