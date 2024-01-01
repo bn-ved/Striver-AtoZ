@@ -29,3 +29,8 @@ int main() {
   return 0;
 }
 #+end_src
+
+- Complete Binary Tree
+- Perfect Binary Tree
+- Balanced Binary Tree
+- Degenerate Tree

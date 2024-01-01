@@ -1,0 +1,97 @@
+#+title: 06. Post Order Traversal Of Binary Tree
+#+author: Bedaprakash Nayak
+#+date: <2024-01-01 Mon>
+*Problem Statement:* Postorder Traversal of a binary tree. Write a program for the postorder traversal of a binary tree.
+
+** Iterative
+*** Intuition
+First we need to understand what we do in a postorder traversal. We first explore the left side of the root node and keep on moving left until we encounter a node pointing to NULL. As now there is nothing more to traverse on the left, we move to the immediate parent(say node P) of that NULL node. Now we again start our left exploration from the right child of that node P. We will print a node’s value only when we have returned from its both children.
+
+*** Approach
+- We take an explicit data structure and a cur pointer pointing to the root of the tree.
+- We run a while loop till the time the cur is not pointing to NULL or the stack is non-empty.
+- If cur is not pointing to NULL, it means then we simply push that value to the stack and move the cur pointer to its left child because we want to explore the left child before the root or the right child.
+- If the cur is pointing to NULL, it means we can’t go further left, then we take a variable temp and set it to  cur’s parent’s right child (as we have visited the left child, now we want to visit the right child). We have node cur’s parent at the top of the stack.
+- If node temp is not pointing to NULL, we simply initialise cur as node temp so that we can again start looking at the left of node temp from the next iteration.
+- If node temp is pointing to NULL, then first of all we are sure that we have visited both children of temp’s parent, so it’s time to print it. Therefore we set temp to its parent( present at the top of stack), pop the stack and then print temp’s value. Additionally,  this new temp(parent of NULL-pointing node) can be the right child of the node present at the top of stack after popping.In that case the node at top of the stack is parent of temp and the next node to be printed. Therefore we run an additional while loop to check if that is the case, if true then again move temp to its parent and print its value.
+
+*** Solution
+
+#+begin_src C++
+class Solution {
+public: // Iterative
+  vector<int> postorderTraversal_iterative(TreeNode *root) {
+    vector<int> postOrder;
+    stack<TreeNode *> stk;
+    while (root != NULL or !stk.empty()) {
+      if (root) {
+        stk.push(root);
+        root = root->left;
+      } else {
+        TreeNode *node = stk.top()->right;
+        if (!node) {
+          node = stk.top();
+          postOrder.push_back(node->val);
+          stk.pop();
+          while (!stk.empty() and node == stk.top()->right) {
+            node = stk.top();
+            postOrder.push_back(node->val);
+            stk.pop();
+          }
+        } else {
+          root = node;
+        }
+      }
+    }
+    return postOrder;
+  }
+#+end_src
+
+** Recursive
+*** Intuition
+In postorder traversal, the tree is traversed in this way: left, right, root.
+
+*** Approach
+The algorithm approach can be stated as:
+
+- We first recursively visit the left child and go on left till we find a node pointing to NULL.
+- Then we return to its parent.
+- Then we recursively visit the right child.
+- After we have returned from the right child as well, only then will we print the  current node value.
+
+*** Solution
+
+#+begin_src C++
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+struct TreeNode {
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+  TreeNode() : val(0), left(NULL), right(NULL) {}
+  TreeNode(int val) : val(val), left(NULL), right(NULL) {}
+  TreeNode(int val, TreeNode *left, TreeNode *right)
+      : val(val), left(left), right(right) {}
+};
+
+public: // Recursive
+  void postOrderTraversal(TreeNode *root, vector<int> &postOrder) {
+    if (!root) {
+      return;
+    }
+    postOrderTraversal(root->left, postOrder);
+    postOrderTraversal(root->right, postOrder);
+    postOrder.push_back(root->val);
+  }
+
+public:
+  vector<int> postorderTraversal(TreeNode *root) {
+    vector<int> postOrder;
+    postOrderTraversal(root, postOrder);
+    return postOrder;
+  }
+};
+#+end_src

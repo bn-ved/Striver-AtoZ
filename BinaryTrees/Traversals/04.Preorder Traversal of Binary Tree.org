@@ -1,0 +1,86 @@
+#+title: 04. Preorder Traversal Of Binary Tree
+#+author: Bedaprakash Nayak
+#+date: <2024-01-01 Mon>
+*Problem Statement*: Given a binary tree print the preorder traversal of binary tree.
+
+** Iterative
+*** Intuition:
+In preorder traversal, the tree is traversed in this way: root, left, right. When we visit a node, we print its value, and then we want to visit the left child followed by the right child. The fundamental problem we face in this scenario is that there is no way that we can move from a child to a parent. To solve this problem, we use an explicit stack data structure. While traversing we can insert node values to the stack in such a way that we always get the next node value at the top of the stack.
+
+*** Approach
+The algorithm approach can be stated as:
+
+- We first take an explicit stack data structure and push the root node to it.(if the root node is not NULL).
+- Then we use a while loop to iterate over the stack till the stack remains non-empty.
+- In every iteration we first pop the stack’s top and print it.
+- Then we first push the right child of this popped node and then push the left child, if they are not NULL. We do so because stack is a last-in-first-out(LIFO) data structure. We need to access the left child first, so we need to push it at the last.
+- The execution continues and will stop when the stack becomes empty. In this process, we will get the preorder traversal of the tree.
+
+*** Solution
+
+#+begin_src C++
+class Solution {
+public:
+  vector<int> preorderTraversal(TreeNode *root) {
+    vector<int> preOrder;
+    if (!root) {
+      return preOrder;
+    }
+    stack<TreeNode *> stk;
+    stk.push(root);
+
+    while (!stk.empty()) {
+      TreeNode *node = stk.top();
+      preOrder.push_back(node->val);
+      stk.pop();
+
+      if (node->right) {
+        stk.push(node->right);
+      }
+      if (node->left) {
+        stk.push(node->left);
+      }
+    }
+    return preOrder;
+  }
+};
+#+end_src
+
+** Recursive
+*** Intuition:
+In preorder traversal, the tree is traversed in this way: root, left, right. When we visit a node, we print its value, and then we want to visit the left child followed by the right child. The fundamental problem we face in this scenario is that there is no way that we can move from a child to a parent. To solve this problem, we use recursion and the recursive call stack to locate ourselves back to the parent node when execution at a child node is completed.
+
+*** Approach:
+In preorder traversal, the tree is traversed in this way: root, left, right.
+
+The algorithm approach can be stated as:
+
+- We first visit the root node and before visiting its children we print its value.
+- After this, we recursively visit its left child.
+- Then we recursively visit the right child.
+- If we encounter a node pointing to NULL, we simply return to its parent.
+
+*** Solution
+
+#+begin_src C++
+class Solution {
+public:
+  void preorderTraversal(TreeNode *root, vector<int> &preOrder) {
+    if (!root) {
+      return;
+    }
+    preOrder.push_back(root->val);
+    preorderTraversal(root->left, preOrder);
+    preorderTraversal(root->right, preOrder);
+  }
+public:
+  vector<int> preorderTraversal(TreeNode *root) {
+    vector<int> preOrder;
+    if (!root) {
+      return preOrder;
+    }
+    preorderTraversal(root, preOrder);
+    return preOrder;
+  }
+};
+#+end_src
